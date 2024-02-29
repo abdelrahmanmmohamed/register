@@ -26,7 +26,7 @@ exports.login = async function(req,res){
             return res.status(401).json({message:"Authntication failed.. invalid email or password"})
 
         }
-        const token =jwt.sign({email:user.email ,name:user.name,_id:user.id},"shhhh")
+        const token =jwt.sign({email:user.email ,name:user.name, _id:user.id, role:user.role},"shhhh")
         return res.json({message:"User Loggedin sucessfully", user:{name:user.name,email:user.email, token:token}})
 
     } catch (error) {

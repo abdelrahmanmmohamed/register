@@ -25,24 +25,42 @@ exports.getBook =async function(req,res){
 }
 exports.deleteBook =async function(req,res){
     try {
-        await bookModel.findByIdAndDelete(req.params.id)
-        return res.json({"message":"Book Delete", data:[]})
+        const Role = req.user.role
+        if(Role === "Admin"){
+            await bookModel.findByIdAndDelete(req.params.id)
+            return res.json({"message":"Book Delete", data:[]})
+        }else{
+            return res.status(403).send("Access Denied")
+        }
+     
     } catch (error) {
         return res.status(400).send({ message:err })
     }
 }
 exports.updateBook =async function(req,res){
     try {
-        await bookModel.findByIdAndUpdate(req.params.id,req.body)
-        return res.json({"message":"Book Update", data:book})
+        const Role = req.user.role
+        if(Role){
+            await bookModel.findByIdAndUpdate(req.params.id,req.body)
+            return res.json({"message":"Book Update", data:[]})
+        }else{
+            return res.status(403).send("Access Denied")
+        }
+       
     } catch (error) {
         return res.status(400).send({ message:err })
     }
 }
 exports.addBook =async function(req,res){
     try {
-        const createBook = await bookModel.create(req.body)
-        return res.json({"message":"Book Created", data:createBook})
+        const Role = req.user.role
+        if(Role ==="Admin"){
+            const createBook = await bookModel.create(req.body)
+            return res.json({"message":"Book Created", data:createBook})
+        }else{
+            return res.status(403).send({message: "Access Denied"})
+        }
+       
     } catch (error) {
         return res.status(400).send({ message:err })
     }

@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt")
 const userSchema = new Schema({
     name:String,
     email:{type:String, unique:true},
-    password:String
+    password:String,
+    role:String
 })
 
 userSchema.methods.comperaPassword = async function(password){
