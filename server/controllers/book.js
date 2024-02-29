@@ -9,9 +9,9 @@ exports.getAllBooks =async function(req,res){
         return res.status(400).send({ message:err })
     }
 }
-exports.getBook =async function(req,res){
+exports.getBook = async function(req,res){
     try {
-        const book = await bookModel.find({_id:req.params.id})
+        const book = await bookModel.find({_id: req.params.id})
         if(book.length === o){
             return res.json({"message":"Book Not Found", data:[]})
         }
@@ -30,7 +30,7 @@ exports.deleteBook =async function(req,res){
             await bookModel.findByIdAndDelete(req.params.id)
             return res.json({"message":"Book Delete", data:[]})
         }else{
-            return res.status(403).send("Access Denied")
+            return res.status(403).send({message: "Access Denied"})
         }
      
     } catch (error) {
@@ -44,7 +44,7 @@ exports.updateBook =async function(req,res){
             await bookModel.findByIdAndUpdate(req.params.id,req.body)
             return res.json({"message":"Book Update", data:[]})
         }else{
-            return res.status(403).send("Access Denied")
+            return res.status(403).send({message: "Access Denied"})
         }
        
     } catch (error) {
